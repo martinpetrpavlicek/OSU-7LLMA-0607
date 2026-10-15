@@ -1,0 +1,21 @@
+[2026-10-15 14:39:39] model: gemma3:1b
+You: Why is the sky blue? Answer in one sentence.
+AI:  The sky appears blue because of a phenomenon called Rayleigh scattering, where sunlight is scattered by the atmosphere's molecules, with shorter wavelengths like blue light being scattered more effectively.
+
+[2026-10-15 14:40:21] model: gemma3:1b
+You: give me a hello world
+AI:  ```python
+print("Hello, World!")
+```
+
+This is the classic "Hello, World!" program in Python. 
+
+**How to run it:**
+
+1.  **Save the code:**  Save this code in a file named `hello.py` (or any name ending in `.py`).
+2.  **Open a terminal or command prompt:** Navigate to the directory where you saved the file.
+3.  **Run the code:** Type `python hello.py` (or `python3 hello.py` depending on your Python installation) and press Enter.
+
+It should print "Hello, World!" to your terminal.
+
+
