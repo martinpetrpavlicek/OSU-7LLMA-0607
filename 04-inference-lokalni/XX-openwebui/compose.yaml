@@ -1,0 +1,38 @@
+# =============================================================================
+# compose.yaml – Open WebUI (webové rozhraní ve stylu ChatGPT) pro lokální Ollamu
+#
+# Spuštění:  ./start.sh   (= docker compose up -d)
+# Otevřít:   http://localhost:3000
+# Zastavení: ./stop.sh    (= docker compose down)
+# =============================================================================
+
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+
+    # Kontejner sdílí síť s počítačem (host). Proč: Ollama poslouchá jen na
+    # 127.0.0.1, takže z běžné izolované sítě Dockeru by nebyla vidět.
+    # Při síti "host" se nepoužívá `ports:` – port nastavíme proměnnou PORT.
+    network_mode: host
+
+    environment:
+      PORT: 3000                                   # web poběží na http://localhost:3000
+      OLLAMA_BASE_URL: http://127.0.0.1:11434      # kde běží Ollama
+      WEBUI_AUTH: "False"                          # bez přihlašování – jen pro výuku/demo!
+      ENABLE_OPENAI_API: "False"                   # používáme jen Ollamu
+      # Open WebUI posílá modelu své vestavěné nástroje (tools) přes "native"
+      # function calling. Malé modely (gemma3:1b, phi4…) tools neumí a Ollama
+      # vrátí chybu "does not support tools". Režim "legacy" popíše nástroje
+      # přímo v promptu, takže funguje s každým modelem.
+      DEFAULT_MODEL_PARAMS: '{"function_calling": "legacy"}'
+
+    # Data (historie chatů, nastavení) se ukládají do pojmenovaného svazku,
+    # takže přežijí smazání i aktualizaci kontejneru.
+    volumes:
+      - open-webui:/app/backend/data
+
+    restart: unless-stopped
+
+volumes:
+  open-webui:
